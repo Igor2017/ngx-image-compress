@@ -18,7 +18,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "initial-lib-generation": "ng generate library ngx-image-compress-new --prefix=enl",
-    "build-lib": "cp README.md projects/ngx-image-compress/README.md && ng build ngx-image-compress",
+    "build-lib": "ng build ngx-image-compress",
     "publish-lib": "cd dist && npm publish ngx-image-compress"
   },
   "private": false,
@@ -33,6 +33,7 @@
     "@angular/router": "^11.0.1",
     "core-js": "^3.1.4",
     "rxjs": "~6.6.3",
+    "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
   },
   "devDependencies": {

@@ -34,4 +34,8 @@ export class NgxImageCompressService {
     return ImageCompress.compress(image, orientation, this.render, ratio, quality);
   }
 
+  public compressFixedSize(image: string, size: number): Promise<string> {
+    return ImageCompress.compressFixedSize(image, this.render, size);
+  }
+
 }

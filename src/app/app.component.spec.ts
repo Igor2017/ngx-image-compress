@@ -1,6 +1,6 @@
 import {TestBed, async} from '@angular/core/testing';
 import {AppComponent} from './app.component';
-import {NgxImageCompressService} from 'ngx-image-compress';
+import {NgxImageCompressService} from '../../projects/ngx-image-compress/src/lib/ngx-image-compress.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {

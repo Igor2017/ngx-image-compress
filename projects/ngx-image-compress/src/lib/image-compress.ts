@@ -101,6 +101,79 @@ export class ImageCompress {
     return promise;
   }
 
+  /**
+   *
+   * Пришлось писать свой метод, т.к. готовый метод compress() просто пропорционально менял исходную картинку.
+   *
+   * Передаем картинку, которая:
+   * 1) делается квадратной путем вырезания квадрата из середины картинки.
+   * 2) квадрат уменьшается до размера "size".
+   * 3) если получившийся из исходной картинки квадрат меньше "size", то он не увеличивается до заданного размера "size".
+   *
+   */
+  static compressFixedSize(imageDataUrlSource: string,
+                  render: Renderer2,
+                  size: number): Promise<string> {
+    const promise: Promise<string> = new Promise(function (resolve, reject) {
+
+      const quality = 1;
+      const sourceImage = new Image();
+
+      // important for safari: we need to wait for onload event
+      sourceImage.onload = function () {
+        const canvas: HTMLCanvasElement = render.createElement('canvas');
+        const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+
+        const dx = 0;
+        const dy = 0;
+        let w, h, sx, sy, sw, sh, dw, dh;
+        w = sourceImage.naturalWidth;
+        h = sourceImage.naturalHeight;
+        if (w >= h) {
+          sx = (w - h) / 2;
+          sy = 0;
+          sw = h;
+          sh = h;
+          if (size > h) {
+            size = h;
+          }
+        } else {
+          sx = 0;
+          sy = (h - w) / 2;
+          sw = w;
+          sh = w;
+          if (size > w) {
+            size = w;
+          }
+        }
+
+        dw = size;
+        dh = size;
+        canvas.width = dw;
+        canvas.height = dh;
+        // console.group();
+        // console.log('sx, sy, sw, sh, dx, dy, dw, dh');
+        // console.log({sx, sy, sw, sh, dx, dy, dw, dh});
+        // console.groupEnd();
+        // тут написано понятно про параметры drawImage():
+        // https://developer.mozilla.org/ru/docs/Web/API/CanvasRenderingContext2D/drawImage
+        ctx.drawImage(sourceImage, sx, sy, sw, sh, dx, dy, dw, dh);
+
+
+        const mime = imageDataUrlSource.substr(5, imageDataUrlSource.split(';')[0].length - 5);
+        // TODO test on mime
+        const result = canvas.toDataURL(mime, quality);
+
+        resolve(result);
+
+      };
+
+      sourceImage.src = imageDataUrlSource;
+
+    });
+
+    return promise;
+  }
 
   static compress(imageDataUrlSource: string,
                   orientation: DOC_ORIENTATION,

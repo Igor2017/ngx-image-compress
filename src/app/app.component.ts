@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NgxImageCompressService} from 'ngx-image-compress';
+import {NgxImageCompressService} from '../../projects/ngx-image-compress/src/lib/ngx-image-compress.service';
 
 @Component({
   selector: 'app-root',
